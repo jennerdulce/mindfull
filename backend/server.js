@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // Routes
 app.get('/hello', (req, res) => {
-  res.status(200).json({message: 'Hello World'})
+  res.status(200).json({message: 'Hello World from the Backend!'})
 })
 
 app.use('/api/items', itemRoutes)
