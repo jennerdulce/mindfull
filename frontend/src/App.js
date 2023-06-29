@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 // **PAGE** Import pages
 import Home from './pages/Home'
+import DisplayPost from './pages/DisplayPost'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <div className="container">
           <Routes>{/* Routes */}
             <Route path='/' element={<Home />} />
+            <Route path='/post/:id' element={<DisplayPost />} />
           </Routes>
         </div>
       </Router>

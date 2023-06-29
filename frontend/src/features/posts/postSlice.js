@@ -9,6 +9,17 @@ const initialState = {
     posts: [], // Change to lowercase
 }
 
+// Get User Post
+export const getPost = createAsyncThunk('post/getPost', async (user, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await postService.getPost(token)
+    } catch (error) {
+        const message = ((error.response && error.response.data && error.response.data.message) || error.message || error.toString())
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 // Get User Posts
 export const getPosts = createAsyncThunk('post/getPosts', async (user, thunkAPI) => {
     try {
@@ -50,6 +61,19 @@ export const postSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(getPost.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getPost.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+            })
+            .addCase(getPost.rejected, (state, action) => {
+                state.posts = [] // Change to lowercase
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
             .addCase(getPosts.pending, (state) => {
                 state.isLoading = true
             })

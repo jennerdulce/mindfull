@@ -2,6 +2,20 @@ import axios from 'axios'
 const API_URL = 'api/posts/' // Change
 
 // Display User Posts
+const getPost = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    }
+    const response = await axios.get(API_URL + '/post', config)
+
+    if (response.data) {
+        return response.data
+    }
+}
+
+// Display User Posts
 const getPosts = async (token) => {
     const config = {
         headers: {
@@ -44,6 +58,7 @@ const deletePost = async (postID, token) => {
 }
 
 const postService = {
+    getPost,
     getPosts,
     createPost,
     deletePost

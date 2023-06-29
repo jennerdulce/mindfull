@@ -13,6 +13,32 @@ const getAllPosts = asyncHandler(async (req, res) => {
     res.status(200).json(posts)
 })
 
+// @desc Get a post
+// @route PUT /api/posts/post
+// @access Private
+
+const getPost = asyncHandler(async( req, res) => {
+    const post = await Post.findById(req.params.id)
+    if(!post){
+        res.status(400)
+        throw new Error('Post not found')
+    }
+
+    // check for user
+    if(!req.user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    // make sure logged in user matches post to user
+    if(post.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
+    res.status(200).json(post)
+})
+
 // @desc Get user posts
 // @route GET /api/posts
 // @access Private
@@ -110,6 +136,7 @@ const deletePost = asyncHandler(async (req, res) => {
 module.exports = {
     getAllPosts,
     getPosts,
+    getPost,
     setPost,
     updatePost,
     deletePost
