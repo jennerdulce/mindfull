@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, Redirect, useNavigate } from 'react-router-dom'
-import { GoPrimitiveDot } from 'react-icons/go'
+import { BsDot } from 'react-icons/bs'
 import { BsCalendar, BsClock } from 'react-icons/bs'
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
@@ -58,7 +58,7 @@ function DisplayPost() {
                 <ModalHeader toggle={this.toggle}>Are you sure you want to delete this journal?</ModalHeader>
                 <ModalFooter>
                     <Button id='s-d-button' onClick={() => dispatch(deletePost(id))}>Forget</Button>{' '}
-                    <Button id='s-c-button' onClick={this.toggle}>Cancel</Button>
+                    <Button id='s-c-button' onClick={setToggleModal()}>Cancel</Button>
                 </ModalFooter>
             </Modal>
             <div id='show-body'>
@@ -74,7 +74,7 @@ function DisplayPost() {
                                 <BsCalendar className='show-icons' />{` ${post.created_at.slice(0, 10)}`}</CardSubtitle>
                             <CardSubtitle className='show-sub'>
                                 <BsClock className='show-icons' />{` ${post.created_at.slice(11, 16)}`}</CardSubtitle>
-                            <CardSubtitle className='show-mood'>{post.mood} <GoPrimitiveDot className='show-icons' style={{ color: post.color }} /></CardSubtitle>
+                            <CardSubtitle className='show-mood'>{post.mood} <BsDot className='show-icons' style={{ color: post.color }} /></CardSubtitle>
                             <CardText className='show-text'>{post.body}</CardText>
                             {/* <Button className='show-buttons'>
                                 <NavLink className='navlink-show' to={'/postindex'}> Go Back </NavLink>

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import { Redirect } from 'react-router-dom'
 import { GiSpellBook } from 'react-icons/gi'
-import { GoPrimitiveDot } from 'react-icons/go'
+import { BsDot } from 'react-icons/bs'
 import Fade from 'react-reveal/Fade'
 import { createPost } from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
@@ -105,15 +104,15 @@ function NewPost() {
                                 name="title"
                                 placeholder="Title"
                                 type="text"
-                                onChange={handleChange()}
+                                onChange={() => handleChange()}
                                 value={title}
                             />
                         </Fade>
                     </FormGroup>
                     <FormGroup className='top-group'>
                         <Fade right>
-                            <Label for="mood">Mood  <GoPrimitiveDot style={{ color: color }} id='post-icon' /> </Label>
-                            <Input onChange={handleChange()} type="select" name="mood" id="exampleSelect">
+                            <Label for="mood">Mood  <BsDot style={{ color: color }} id='post-icon' /> </Label>
+                            <Input onChange={() => handleChange()} type="select" name="mood" id="exampleSelect">
                                 <option>Happy</option>
                                 <option>Good</option>
                                 <option>Okay</option>
@@ -134,12 +133,12 @@ function NewPost() {
                             name="body"
                             placeholder="Body"
                             type="textarea"
-                            onChange={handleChange()}
+                            onChange={() => handleChange()}
                             value={body}
                         />
                     </Fade>
                 </FormGroup>
-                <Button id="btn" onClick={handleSubmit()}>
+                <Button id="btn" onClick={() => handleSubmit()}>
                     <GiSpellBook className="send" aria-hidden="true" />
                     <GiSpellBook className="send2" aria-hidden="true" />
                     <p>publish</p>
