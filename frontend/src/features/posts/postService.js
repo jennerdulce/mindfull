@@ -50,9 +50,10 @@ const deletePost = async (postID, token) => {
             Authorization: `Bearer ${token}`,
         }
     }
-    const response = await axios.delete(API_URL + postID, config)
-    // const response = await axios.delete(`api/posts/${postID}`, config)
-    // const response = await axios.
+    console.log('token: ', token)
+    const response = await axios.delete('/' + postID, config)
+    console.log('DELETE RESPONSE: ', response)
+    // const response = await axios.delete(API_URL + postID, config)
     if (response.data) {
         return response.data
     }

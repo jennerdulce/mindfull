@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { NavItem } from 'reactstrap';
 import { BsDot } from 'react-icons/bs'
 import {
     Card,
@@ -10,10 +11,11 @@ import {
 } from 'reactstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { getPosts } from '../features/posts/postSlice'
+import Spinner from '../components/Spinner'
 
 function MyJournal() {
     const dispatch = useDispatch()
-    const { posts } = useSelector((state) => state.post)
+    const { posts, isLoading } = useSelector((state) => state.post)
     const [filteredPosts, setFilteredPosts] = useState([])
 
     const filterChoice = (e) => {
@@ -28,17 +30,28 @@ function MyJournal() {
     }
 
     useEffect(() => {
-        if(posts.length === 0) {
-            dispatch(getPosts())
-        }
-
         if(posts.length > 0){
             setFilteredPosts(posts)
         }
+
+        if(posts.length === 0){
+            setFilteredPosts([])
+        }
     }, [dispatch, posts])
+
+    useEffect(() => {
+        getPosts()
+    }, [])
+
+    if (isLoading) {
+        return <Spinner />
+    }
 
     return (
         <>
+            {/* {isLoading &&
+                <Spinner />
+            } */}
             <div id='index-page'>
                 <h3 className='title'>My Entries</h3>
                 <select onChange={(e) => filterChoice(e)} id='select'>
@@ -74,6 +87,16 @@ function MyJournal() {
                                 </NavLink>
                             )
                         })
+                    }
+                    {(filteredPosts.length < 1) &&
+                        <div>
+                            <h1>Begin your journey!</h1>
+                            <NavItem className='nav-links'>
+                                <NavLink to="/newpost" className='nav-link-text'>
+                                    Add New Entry
+                                </NavLink>
+                            </NavItem>
+                        </div>
                     }
                 </div>
             </div>

@@ -32,3 +32,19 @@ router.get('/post/:id', protect, getPost)
 DELETE http://localhost:3000/post/api/posts/64ae4eaef79a183220021634 404 (Not Found)
 ```
 - I do not know why it is adding the extra post after 3000
+
+#### Fix
+- Interestingly enough I couldnt figure out why `post` was being prepended to the API request...
+- I made a new endpoint to the API that is separate from the rest of the post routes
+
+```js
+// In server.js
+app.delete('/:id', protect, deletePost)
+
+```
+- And made a request to the new endpoint
+```js 
+const response = await axios.delete('/' + postID, config)
+```
+
+- Surprisingly, `post` was not prepended...

@@ -10,6 +10,9 @@ const itemRoutes = require('./routes/itemRoutes')
 const userRoutes = require('./routes/userRoutes')
 const postRoutes = require('./routes/postRoutes')
 
+const { deletePost } = require('./controllers/postController')
+
+const { protect } = require('./middleware/authMiddleware')
 const { errorHandler } = require('./middleware/errorMiddleware')
 
 
@@ -24,8 +27,11 @@ app.use(express.urlencoded({ extended: false }))
 
 // Routes
 app.get('/hello', (req, res) => {
-  res.status(200).json({message: 'Hello World from the Backend!'})
+  res.status(200).json({ message: 'Hello World from the Backend!' })
 })
+
+// Delete Post
+app.delete('/:id', protect, deletePost)
 
 app.use('/api/items', itemRoutes)
 app.use('/api/posts', postRoutes)

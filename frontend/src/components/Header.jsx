@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Collapse, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
+import { Collapse, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiOutlineCloseCircle } from 'react-icons/ai'

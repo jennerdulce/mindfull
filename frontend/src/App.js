@@ -14,6 +14,7 @@ import NewPost from './pages/NewPost'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Services from './pages/Services'
+import AboutUs from './pages/AboutUs'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path='/post/:id' element={<DisplayPost />} />
             <Route path='/newpost' element={<NewPost />} />
             <Route path='/services' element={<Services />} />
+            <Route path='/aboutUs' element={<AboutUs />} />
           </Routes>
           <Footer />
         </div>

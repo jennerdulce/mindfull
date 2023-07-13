@@ -38,7 +38,7 @@ function NewPost() {
 
     useEffect(() => {
         if (submittedStatus && isSuccess) {
-            navigate('/dashboard')
+            navigate('/myjournal')
         }
 
     }, [submittedStatus, isSuccess, navigate])
