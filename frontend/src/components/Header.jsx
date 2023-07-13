@@ -67,7 +67,7 @@ function Header() {
                         }
                         {user &&
                             <NavItem className='nav-links' onClick={() => handleClick()}>
-                                <NavLink to="/postnew" className='nav-link-text'>
+                                <NavLink to="/newpost" className='nav-link-text'>
                                     Add New Entry
                                 </NavLink>
                             </NavItem>

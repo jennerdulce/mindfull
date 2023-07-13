@@ -8,30 +8,30 @@ const Post = require('../models/postModel')
 // @access Private
 
 const getAllPosts = asyncHandler(async (req, res) => {
-    
+
     const posts = await Post.find()
     res.status(200).json(posts)
 })
 
 // @desc Get a post
-// @route PUT /api/posts/post
+// @route PUT /api/posts/post/:id
 // @access Private
 
-const getPost = asyncHandler(async( req, res) => {
-    const post = await Post.findById(req.params.id)
-    if(!post){
+const getPost = asyncHandler(async (req, res) => {
+    const post = await Post.findById(req.params.id )
+    if (!post) {
         res.status(400)
         throw new Error('Post not found')
     }
 
     // check for user
-    if(!req.user) {
+    if (!req.user) {
         res.status(401)
         throw new Error('User not found')
     }
 
     // make sure logged in user matches post to user
-    if(post.user.toString() !== req.user.id) {
+    if (post.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')
     }
@@ -44,7 +44,7 @@ const getPost = asyncHandler(async( req, res) => {
 // @access Private
 
 const getPosts = asyncHandler(async (req, res) => {
-    
+
     const posts = await Post.find({ user: req.user.id })
     res.status(200).json(posts)
 })
@@ -57,11 +57,20 @@ const setPost = asyncHandler(async (req, res) => {
     // Proper method with middleware
     // ** req.body.text pertains to specific post **
     // ** If a Post has no text propety, use a different property within the Post object **
-    if(!req.body.text){
+    if (!req.body.body) {
         res.status(400)
-        throw new Error('Please add text field') // Utilizes new error middleware created
+        throw new Error('Please add content to the body field') // Utilizes new error middleware created
     }
 
+    if (!req.body.title) {
+        res.status(400)
+        throw new Error('Please add a title field') // Utilizes new error middleware created
+    }
+
+    if (!req.body.mood) {
+        res.status(400)
+        throw new Error('Please select a mood field') // Utilizes new error middleware created
+    }
 
     // MongoDB request
     const post = await Post.create({
@@ -78,21 +87,21 @@ const setPost = asyncHandler(async (req, res) => {
 // @route PUT /api/posts/:id
 // @access Private
 
-const updatePost = asyncHandler(async( req, res) => {
+const updatePost = asyncHandler(async (req, res) => {
     const post = await Post.findById(req.params.id)
-    if(!post){
+    if (!post) {
         res.status(400)
         throw new Error('Post not found')
     }
 
     // check for user
-    if(!req.user) {
+    if (!req.user) {
         res.status(401)
         throw new Error('User not found')
     }
 
     // make sure logged in user matches post to user
-    if(post.user.toString() !== req.user.id) {
+    if (post.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')
     }
@@ -110,26 +119,26 @@ const updatePost = asyncHandler(async( req, res) => {
 const deletePost = asyncHandler(async (req, res) => {
     const post = await Post.findById(req.params.id)
 
-    if(!post){
+    if (!post) {
         res.status(400)
         throw new Error('Post not found')
-    } 
+    }
 
-    if(!req.user) {
+    if (!req.user) {
         res.status(401)
         throw new Error('User not found')
     }
 
-    if(post.user.toString() !== req.user.id) {
+    if (post.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')
     }
 
     await Post.findByIdAndDelete(req.params.id)
 
-    res.status(200).json({ 
+    res.status(200).json({
         message: 'Post Deleted',
-        id: req.params.id 
+        id: req.params.id
     })
 })
 

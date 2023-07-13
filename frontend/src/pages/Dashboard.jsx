@@ -19,7 +19,7 @@ import { getPosts } from '../features/posts/postSlice'
 
 function Dashboard() {
     const dispatch = useDispatch()
-    const posts = useSelector((state) => state.post)
+    const { posts } = useSelector((state) => state.post)
     const [moods, setMoods] = useState({
         good: 0,
         sad: 0,
@@ -43,7 +43,6 @@ function Dashboard() {
 
     const getQuotes = async () => {
         const response = await axios.get('https://type.fit/api/quotes')
-        console.log('REPSONSE: ', response)
         if (response.data) {
             try {
                 let payload = response.data
@@ -70,10 +69,10 @@ function Dashboard() {
     }, [quotes])
 
     useEffect(() => {
-        if(posts && posts.length > 0){
+        if (posts && posts.length > 0) {
             generateChartInfo(posts)
         }
-        
+
     }, [dispatch, generateChartInfo, posts])
 
     useEffect(() => {
@@ -85,13 +84,6 @@ function Dashboard() {
         getQuotes()
     }, [dispatch])
 
-    useEffect(() => {
-        console.log("RANDOM QUOTE: ", currentQuote)
-        
-    }, [currentQuote])
-
-    
-
     return (
         <div id='account-container'>
             <h3 className='title'>My Account</h3>
@@ -99,7 +91,7 @@ function Dashboard() {
             <div id='account-group-1'>
                 <Card style={{ width: '30rem', height: '25rem' }}
                     className='project-card'>
-                    <NavLink to="/postindex">
+                    <NavLink to="/myjournal">
                         <CardTitle className='project-card-content'>View Your Journal <AiOutlineArrowRight /></ CardTitle>
                     </NavLink>
                 </Card>
@@ -116,11 +108,13 @@ function Dashboard() {
                                 <CardText
                                     className={isHidden ? 'cq-text' : 'cq-text-display'}>
                                     {currentQuote &&
-                                    `"${currentQuote.text}"`
+                                        `"${currentQuote.text}"`
                                     }
+                                    <h4>
                                     {currentQuote &&
-                                    <h4>-{currentQuote.author}</h4>
+                                        `-${currentQuote.author}`
                                     }
+                                    </h4>
                                 </CardText>
                             </CardBody>
                             <CardFooter id='cq-footer'>

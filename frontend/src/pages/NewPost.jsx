@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { GiSpellBook } from 'react-icons/gi'
 import { BsDot } from 'react-icons/bs'
 import Fade from 'react-reveal/Fade'
 import { createPost } from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
+import { toast } from 'react-toastify'
 
 function NewPost() {
-    const { isLoading, isSuccess } = useSelector((state) => state.post)
+    const { isLoading, isSuccess, isError, message } = useSelector((state) => state.post)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     // useEffect(() => {
     //     if (isError) {
@@ -26,7 +29,7 @@ function NewPost() {
 
     let [formData, setFormData] = useState({
         title: '',
-        mood: '',
+        mood: 'Happy',
         body: '',
         color: 'teal',
     })
@@ -35,10 +38,17 @@ function NewPost() {
 
     useEffect(() => {
         if (submittedStatus && isSuccess) {
-            // Redirect to dashboard
+            navigate('/dashboard')
         }
 
-    }, [submittedStatus, isSuccess])
+    }, [submittedStatus, isSuccess, navigate])
+
+    useEffect(() => {
+        if(isError) {
+            toast.error(message)
+        }
+
+    }, [isError, message])
 
     const handleChange = (e) => {
         let targetValue = e.target.value
@@ -57,9 +67,10 @@ function NewPost() {
             } else if (targetValue === "Miserable") {
                 newColor = "purple"
             }
+
             setFormData((prevState) => ({
                 ...prevState,
-                [color]: newColor,
+                'color': newColor,
             }))
         }
 
@@ -104,7 +115,7 @@ function NewPost() {
                                 name="title"
                                 placeholder="Title"
                                 type="text"
-                                onChange={() => handleChange()}
+                                onChange={(e) => handleChange(e)}
                                 value={title}
                             />
                         </Fade>
@@ -112,7 +123,7 @@ function NewPost() {
                     <FormGroup className='top-group'>
                         <Fade right>
                             <Label for="mood">Mood  <BsDot style={{ color: color }} id='post-icon' /> </Label>
-                            <Input onChange={() => handleChange()} type="select" name="mood" id="exampleSelect">
+                            <Input onChange={(e) => handleChange(e)} type="select" name="mood" id="exampleSelect">
                                 <option>Happy</option>
                                 <option>Good</option>
                                 <option>Okay</option>
@@ -133,12 +144,12 @@ function NewPost() {
                             name="body"
                             placeholder="Body"
                             type="textarea"
-                            onChange={() => handleChange()}
+                            onChange={(e) => handleChange(e)}
                             value={body}
                         />
                     </Fade>
                 </FormGroup>
-                <Button id="btn" onClick={() => handleSubmit()}>
+                <Button id="btn" onClick={(e) => handleSubmit(e)}>
                     <GiSpellBook className="send" aria-hidden="true" />
                     <GiSpellBook className="send2" aria-hidden="true" />
                     <p>publish</p>

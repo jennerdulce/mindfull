@@ -1,19 +1,19 @@
 import axios from 'axios'
-const API_URL = 'api/posts/' // Change
+const API_URL = 'api/posts/'
 
-// Display User Posts
-const getPost = async (token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    }
-    const response = await axios.get(API_URL + '/post', config)
+// Display User Post
+// const getPost = async (postID, token) => {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         }
+//     }
+//     const response = await axios.get(API_URL + `post/${postID}`, config)
 
-    if (response.data) {
-        return response.data
-    }
-}
+//     if (response.data) {
+//         return response.data
+//     }
+// }
 
 // Display User Posts
 const getPosts = async (token) => {
@@ -51,14 +51,15 @@ const deletePost = async (postID, token) => {
         }
     }
     const response = await axios.delete(API_URL + postID, config)
-
+    // const response = await axios.delete(`api/posts/${postID}`, config)
+    // const response = await axios.
     if (response.data) {
         return response.data
     }
 }
 
 const postService = {
-    getPost,
+    // getPost,
     getPosts,
     createPost,
     deletePost

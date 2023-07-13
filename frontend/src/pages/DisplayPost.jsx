@@ -5,7 +5,7 @@ import { BsCalendar, BsClock } from 'react-icons/bs'
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../components/Spinner'
-import { getPost, deletePost } from "../features/posts/postSlice" // Create functionality to get a single post
+import { deletePost } from "../features/posts/postSlice" // Create functionality to get a single post
 
 import {
     Card,
@@ -27,9 +27,19 @@ function DisplayPost() {
     const navigate = useNavigate()
     const { id } = useParams()
     const { user } = useSelector((state) => state.auth)
-    const { isLoading, isError, message } = useSelector((state) => state.post)
-    const [post, setPost] = useState('')
+    const { isLoading, isError, message, posts} = useSelector((state) => state.post)
+    const post = posts.filter(post => { return post._id === id})[0]
+    const [deleted, setDeleted] = useState('')
     const [modal, setToggleModal] = useState(false)
+
+    const handleDelete = (postId) => {
+        dispatch(deletePost(postId))
+        setDeleted(true)
+    }
+
+    const toggleModal = () => {
+        setToggleModal(!modal)
+    }
 
     useEffect(() => {
       if(isError) {
@@ -40,29 +50,45 @@ function DisplayPost() {
         navigate('/login')
       }
   
-      setPost(dispatch(getPost()))
-  
-    }, [post, user, isError, message, dispatch, navigate])
+    }, [user, isError, message, dispatch, navigate, id])
 
     useEffect(() => {
-        setToggleModal(!modal)
-    }, [modal])
-  
+        if (deleted) {
+            navigate('/myjournal')
+        }
+    }, [deleted, navigate])
+
+    // ** SECOND MORE PREFERRED METHOD, COULD NOT GET IT WORKING **
+    // ** WOULD RETRIEVE ONE POST FROM DB AND USE THE PAYLOAD **
+    // ** I DO NOT THINK YOU CAN PASS QUERY PARAMETER IN GET REQUEST **
+    // ** PROBLEM WITH CURRENT 
+    // useEffect(() => {
+    //     if (user) {
+    //         dispatch(getPost(id))
+    //     }
+    // }, [dispatch, id, user])
+
+    // useEffect(() => {
+    //     console.log('POST: ', post)
+    //     console.log('ID: ', id)
+    //     console.log('POSTS: ', posts)
+    // }, [dispatch, post, posts, id])
+
     if(isLoading) {
       return <Spinner />
     }
 
     return (
         <>
-            <Modal isOpen={modal} toggle={() => {setToggleModal()}}>
-                <ModalHeader toggle={this.toggle}>Are you sure you want to delete this journal?</ModalHeader>
+            <Modal isOpen={modal} toggle={() => toggleModal()}>
+                <ModalHeader toggle={() => toggleModal()}>Are you sure you want to delete this journal?</ModalHeader>
                 <ModalFooter>
-                    <Button id='s-d-button' onClick={() => dispatch(deletePost(id))}>Forget</Button>{' '}
-                    <Button id='s-c-button' onClick={setToggleModal()}>Cancel</Button>
+                    <Button id='s-d-button' onClick={() => handleDelete(id)}>Forget</Button>{' '}
+                    <Button id='s-c-button' onClick={() => toggleModal()}>Cancel</Button>
                 </ModalFooter>
             </Modal>
             <div id='show-body'>
-                {user &&
+                {(user && post) &&
                     <Card
                         id='show-card'
                         style={{ width: '100%', height: 'fit-content' }}>
@@ -71,9 +97,9 @@ function DisplayPost() {
                                 <CardTitle className='title' id='show-title'>{post.title}</CardTitle>
                             </Zoom>
                             <CardSubtitle className='show-sub'>
-                                <BsCalendar className='show-icons' />{` ${post.created_at.slice(0, 10)}`}</CardSubtitle>
+                                <BsCalendar className='show-icons' />{` ${post.createdAt}`}</CardSubtitle>
                             <CardSubtitle className='show-sub'>
-                                <BsClock className='show-icons' />{` ${post.created_at.slice(11, 16)}`}</CardSubtitle>
+                                <BsClock className='show-icons' />{` ${post.createdAt}`}</CardSubtitle>
                             <CardSubtitle className='show-mood'>{post.mood} <BsDot className='show-icons' style={{ color: post.color }} /></CardSubtitle>
                             <CardText className='show-text'>{post.body}</CardText>
                             {/* <Button className='show-buttons'>
@@ -82,7 +108,7 @@ function DisplayPost() {
                             {/* <Button className='show-buttons'>
                                 <NavLink className='navlink-show' to={`/postedit/${this.props.post.id}`}> Edit Entry </NavLink>
                             </Button> */}
-                            <Button className='show-buttons' onClick={this.toggle}>
+                            <Button className='show-buttons' onClick={() => toggleModal()}>
                                 Forget Entry
                             </Button>
                         </CardBody>

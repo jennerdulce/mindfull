@@ -6,14 +6,15 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: '',
-    posts: [], // Change to lowercase
+    posts: [],
+    targetedPost: {}
 }
 
 // Get User Post
-export const getPost = createAsyncThunk('post/getPost', async (user, thunkAPI) => {
+export const getPost = createAsyncThunk('post/getPost', async (postID, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await postService.getPost(token)
+        return await postService.getPost(postID, token)
     } catch (error) {
         const message = ((error.response && error.response.data && error.response.data.message) || error.message || error.toString())
         return thunkAPI.rejectWithValue(message)
@@ -32,10 +33,10 @@ export const getPosts = createAsyncThunk('post/getPosts', async (user, thunkAPI)
 })
 
 // Create User Post
-export const createPost = createAsyncThunk('post/createPost', async (postText, thunkAPI) => {
+export const createPost = createAsyncThunk('post/createPost', async (postData, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await postService.createPost(postText, token)
+        return await postService.createPost(postData, token)
     } catch (error) {
         const message = ((error.response && error.response.data && error.response.data.message) || error.message || error.toString())
         return thunkAPI.rejectWithValue(message)
@@ -43,7 +44,7 @@ export const createPost = createAsyncThunk('post/createPost', async (postText, t
 })
 
 // Create Delete Post
-export const deletePost = createAsyncThunk('post/deleteGoal', async (postID, thunkAPI) => {
+export const deletePost = createAsyncThunk('post/deletePost', async (postID, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
         return await postService.deletePost(postID, token)
@@ -67,9 +68,10 @@ export const postSlice = createSlice({
             .addCase(getPost.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
+                state.targetedPost = action.payload
             })
             .addCase(getPost.rejected, (state, action) => {
-                state.posts = [] // Change to lowercase
+                state.posts = []
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
@@ -80,10 +82,10 @@ export const postSlice = createSlice({
             .addCase(getPosts.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.posts = action.payload // Change to lowercase
+                state.posts = action.payload
             })
             .addCase(getPosts.rejected, (state, action) => {
-                state.posts = [] // Change to lowercase
+                state.posts = []
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
@@ -94,7 +96,7 @@ export const postSlice = createSlice({
             .addCase(createPost.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.posts.push(action.payload) // Change to lowercase
+                state.posts.push(action.payload)
             })
             .addCase(createPost.rejected, (state, action) => {
                 state.isLoading = false
@@ -107,7 +109,7 @@ export const postSlice = createSlice({
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.posts = state.Posts.filter((post) => post._id !== action.payload.id) // Change to lowercase
+                state.posts = state.Posts.filter((post) => post._id !== action.payload.id)
             })
             .addCase(deletePost.rejected, (state, action) => {
                 state.isLoading = false
