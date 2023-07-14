@@ -70,7 +70,7 @@ function Login() {
   }
 
   return (
-    <>
+    <div id='input-page'>
       <section className='form-body'>
         <h2 id='h2'><FaSignInAlt />  Login</h2>
         <p> Login and start creating Items! </p>
@@ -90,7 +90,7 @@ function Login() {
           </div>
         </form>
       </section>
-    </>
+    </div>
   )
 }
 
