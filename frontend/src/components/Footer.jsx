@@ -13,7 +13,7 @@ export default class Footer extends Component {
             Copyright JNID All rights reserved.
         </p>
         <p className='footer-text'>
-          <a href='https://github.com/LEARN-JNID/BrightMind'target='_blank'>
+          <a href='https://github.com/LEARN-JNID/BrightMind'>
           <AiFillGithub className='footer-icons' />
           </a>
         </p>

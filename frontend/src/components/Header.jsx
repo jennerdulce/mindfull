@@ -22,6 +22,7 @@ function Header() {
     }
 
     const onLogout = () => {
+        setIsCollapsed(true)
         dispatch(logout())
         dispatch(reset())
         navigate('/login')
@@ -84,7 +85,7 @@ function Header() {
                         } */}
                         {user &&
                             <NavItem className='nav-links' onClick={() => onLogout()}>
-                                <button className='nav-link-text'>Logout</button>
+                                <a className='nav-link-text'>Logout</a>
                             </NavItem>
                         }
                         {!user &&

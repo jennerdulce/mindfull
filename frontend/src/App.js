@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <Router>{/* Routes */}
-        <div className="container">
+        <div id="app-container">
           <Header />
           <Routes>{/* Routes */}
             <Route path='/' element={<Home />} />
