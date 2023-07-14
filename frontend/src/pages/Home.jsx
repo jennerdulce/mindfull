@@ -1,8 +1,8 @@
 import React from 'react'
 import Fade from 'react-reveal/Fade';
-// import AccountGif from '../../../assets/images/AccountGif.gif'
-// import NewGif from '../../../assets/images/NewGif.gif'
-// import IndexGif from '../../../assets/images/AccountGif.gif'
+import AccountGif from '../assets/images/IndexGif.gif'
+import NewGif from '../assets/images/NewGif.gif'
+import IndexGif from '../assets/images/AccountGif.gif'
 
 function Home() {
   return (
@@ -24,12 +24,12 @@ function Home() {
               <h2 className='demo-title'>Account Interface</h2>
               <p>Tracking. Track your state of mind over a span of time to see how far you've come on your journey to self-care. Your moods are emotions, and emotions are temporary. It's okay to have bad days. There are better days to come!</p>
             </div>
-            {/* <img className='img-demo' src={AccountGif} alt="gif demo" /> */}
+            <img className='img-demo' src={AccountGif} alt="gif demo" />
           </Fade>
         </div>
         <Fade bottom>
           <div className='body-demo' >
-            {/* <img className='img-demo' src={NewGif} alt="gif demo" /> */}
+            <img className='img-demo' src={NewGif} alt="gif demo" />
             <div className='demo-info'>
               <h2 className='demo-title'>Write</h2>
               <p>Learn from the past and continue moving forward. Every day is a new day for growth and new experiences. Be kind to yourself as you recognize thoughts, feelings, and actions. They do not define you.</p>
@@ -42,7 +42,7 @@ function Home() {
               <h2 className='demo-title'>Reflect</h2>
               <p>Review and Reflect. Trace back to older entries to learn and grow from your past experiences. Whether it be getting rid of bad habits or regrets that you might have, don't be too hard on yourself. There is always room for improvement.</p>
             </div>
-            {/* <img className='img-demo' src={IndexGif} alt="gif demo" /> */}
+            <img className='img-demo' src={IndexGif} alt="gif demo" />
           </Fade>
         </div>
       </div>

@@ -8,7 +8,7 @@ import {
   CardBody,
   CardTitle
 } from 'reactstrap';
-// import Ivan from '../../../assets/images/Ivan.png'
+import Ivan from '../assets/images/Ivan.png'
 
 function AboutUs() {
     return (
@@ -34,7 +34,7 @@ function AboutUs() {
 
                 <Card className='ab-cards'
                     style={{ width: '30rem' }}>
-                    {/* <CardImg className='ab-card-img' src={Ivan} /> */}
+                    <CardImg className='ab-card-img' src={Ivan} />
                     <CardBody>
                         <CardTitle className='ab-card-t'>Ivan Ortega</CardTitle>
                         <CardSubtitle className='ab-card-s'>Tech Lead</CardSubtitle>

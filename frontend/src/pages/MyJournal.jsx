@@ -92,7 +92,7 @@ function MyJournal() {
                         <div>
                             <h1>Begin your journey!</h1>
                             <NavItem className='nav-links'>
-                                <NavLink to="/newpost" className='nav-link-text'>
+                                <NavLink to="/newpost" className='new-entry-button'>
                                     Add New Entry
                                 </NavLink>
                             </NavItem>
