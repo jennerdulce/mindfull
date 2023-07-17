@@ -8,7 +8,7 @@ function Home() {
   return (
     <div id='home-container'>
       <div id='intro-text'>
-        <h1 id='intro-h1'> Welcome to Bright Mind</h1>
+        <h1 id='intro-h1'> Welcome to Mindfull</h1>
         <Fade>
           <h4 id='intro-h4'>An online journaling and mood tracker app</h4>
         </Fade>
